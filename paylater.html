@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cairkan PayLater Anda Sekarang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .step-indicator.active {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            transform: scale(1.1);
+        }
+        
+        .option-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .option-card.selected {
+            transform: scale(1.05);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Hero Section -->
+    <div class="gradient-bg min-h-screen flex items-center justify-center px-4">
+        <div class="max-w-4xl mx-auto text-center text-white">
+            <div class="bounce-in">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                    Layanan Cairkan PayLater Anda Sekarang!
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90 font-light">
+                    Solusi cepat dan aman untuk mencairkan saldo PayLater Anda dengan proses yang mudah dan transparan.
+                </p>
+                <button onclick="scrollToForm()" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Mulai Sekarang <i class="fas fa-arrow-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Section -->
+    <div id="form-section" class="py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
+                
+                <!-- Progress Indicator -->
+                <div class="flex justify-center mb-12">
+                    <div class="flex items-center space-x-4">
+                        <div id="step1-indicator" class="step-indicator w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">1</div>
+                        <div class="w-16 h-1 bg-gray-200 rounded"></div>
+                        <div id="step2-indicator" class="step-indicator w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-semibold">2</div>
+                        <div class="w-16 h-1 bg-gray-200 rounded"></div>
+                        <div id="step3-indicator" class="step-indicator w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-semibold">3</div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Choose PayLater Source -->
+                <div id="step1" class="step-content slide-up">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Pilih Sumber PayLater</h2>
+                    <p class="text-gray-600 text-center mb-8">Pilih platform tempat Anda memiliki saldo PayLater</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Shopee -->
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-6 text-center" onclick="selectPayLater('shopee', this)">
+                            <div class="w-16 h-16 mx-auto mb-4 bg-orange-500 rounded-xl flex items-center justify-center">
+                                <i class="fab fa-shopify text-white text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-lg text-gray-800">Shopee PayLater</h3>
+                            <p class="text-gray-600 text-sm mt-2">Cairkan saldo PayLater Shopee</p>
+                        </div>
+                        
+                        <!-- Lazada -->
+                       <div class="option-card border-2 border-gray-200 rounded-xl p-6 text-center" onclick="selectPayLater('lazada', this)">
+                            <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-shopping-bag text-white text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-lg text-gray-800">Lazada PayLater</h3>
+                            <p class="text-gray-600 text-sm mt-2">Cairkan saldo PayLater Lazada</p>
+                        </div>
+                        
+                        <!-- Tokopedia -->
+                       <div class="option-card border-2 border-gray-200 rounded-xl p-6 text-center" onclick="selectPayLater('tokopedia', this)">
+                            <div class="w-16 h-16 mx-auto mb-4 bg-green-500 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-store text-white text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-lg text-gray-800">Tokopedia PayLater</h3>
+                            <p class="text-gray-600 text-sm mt-2">Cairkan saldo PayLater Tokopedia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Choose Payment Method -->
+                <div id="step2" class="step-content hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Pilih Metode Pencairan</h2>
+                    <p class="text-gray-600 text-center mb-8">Pilih rekening bank atau e-wallet tujuan pencairan</p>
+                    
+                    <!-- Bank Options -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">
+                            <i class="fas fa-university mr-2"></i>Transfer Bank
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="option-card border-2 border-gray-200 rounded-xl p-4 text-center" onclick="selectMethod('bca')">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">BCA</span>
+                                </div>
+                                <p class="text-gray-700 font-medium">BCA</p>
+                            </div>
+                            
+                            <div class="option-card border-2 border-gray-200 rounded-xl p-4 text-center" onclick="selectMethod('bri')">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-blue-800 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">BRI</span>
+                                </div>
+                                <p class="text-gray-700 font-medium">BRI</p>
+                            </div>
+                            
+                            <div class="option-card border-2 border-gray-200 rounded-xl p-4 text-center" onclick="selectMethod('mandiri')">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-yellow-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-xs">MDR</span>
+                                </div>
+                                <p class="text-gray-700 font-medium">Mandiri</p>
+                            </div>
+                            
+                            <div class="option-card border-2 border-gray-200 rounded-xl p-4 text-center" onclick="selectMethod('bni')">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-orange-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">BNI</span>
+                                </div>
+                                <p class="text-gray-700 font-medium">BNI</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- E-Wallet Options -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">
+                            <i class="fas fa-mobile-alt mr-2"></i>E-Wallet
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="option-card border-2 border-gray-200 rounded-xl p-4 text-center" onclick="selectMethod('dana')">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-blue-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-wallet text-white text-lg"></i>
+                                </div>
+                                <p class="text-gray-700 font-medium">DANA</p>
+                            </div>
+                            
+                            <div class="option-card border-2 border-gray-200 rounded-xl p-4 text-center" onclick="selectMethod('ovo')">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-purple-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-coins text-white text-lg"></i>
+                                </div>
+                                <p class="text-gray-700 font-medium">OVO</p>
+                            </div>
+                            
+                            <div class="option-card border-2 border-gray-200 rounded-xl p-4 text-center" onclick="selectMethod('gopay')">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-green-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-motorcycle text-white text-lg"></i>
+                                </div>
+                                <p class="text-gray-700 font-medium">GoPay</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               <!-- Step 3: Pilih Nominal -->
+<div id="step3" class="step-content hidden">
+  <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Pilih Nominal</h2>
+  <p class="text-gray-600 text-center mb-8">Pilih jumlah pencairan. Biaya admin akan dihitung otomatis.</p>
+
+<!-- Input Nomor Tujuan -->
+<div class="mb-6">
+  <label for="nomorTujuan" class="block text-gray-700 font-medium mb-2">
+    Masukkan <span id="labelMetode">Nomor Rekening / No E-Wallet</span>
+  </label>
+  <input type="text" id="nomorTujuan" 
+         class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base sm:text-sm focus:outline-none focus:border-blue-500 transition-all" 
+         placeholder="Masukkan nomor tujuan">
+</div>
+
+  <div class="max-w-md mx-auto">
+    <div class="grid grid-cols-3 gap-3">
+      <button onclick="setAmount(100000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">100K</button>
+      <button onclick="setAmount(150000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">150K</button>
+      <button onclick="setAmount(200000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">200K</button>
+      <button onclick="setAmount(250000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">250K</button>
+      <button onclick="setAmount(300000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">300K</button>
+    </div>
+
+    <!-- Rincian akan muncul setelah memilih -->
+    <div id="summary-box" class="hidden mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <p class="text-gray-700 text-lg font-semibold">Rincian:</p>
+      <p class="text-gray-600 mt-2">Jumlah Pencairan: <span id="amountDisplay">Rp 0</span></p>
+      <p class="text-gray-600">Biaya Admin (5%): <span id="adminFeeDisplay">Rp 0</span></p>
+      <p class="text-gray-800 font-bold mt-2">Total Diterima: <span id="totalDisplay">Rp 0</span></p>
+    </div>
+
+    <button id="submit-btn" onclick="submitForm()" class="w-full mt-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+      <i class="fas fa-paper-plane mr-2"></i>Kirim Sekarang
+    </button>
+  </div>
+</div>
+
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl p-8 m-4 max-w-md w-full text-center bounce-in">
+            <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-check text-white text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Berhasil!</h3>
+            <p class="text-gray-600 mb-6">Data Anda berhasil dikirim. Anda akan diarahkan ke WhatsApp admin untuk proses selanjutnya.</p>
+            <div class="flex space-x-3">
+                <button onclick="closeModal()" class="flex-1 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Tutup</button>
+                <button onclick="redirectToWhatsApp()" class="flex-1 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                    <i class="fab fa-whatsapp mr-2"></i>WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedPayLater = '';
+        let selectedMethod = '';
+        let amount = 0;
+
+        function scrollToForm() {
+            document.getElementById('form-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function selectPayLater(platform, el) {
+    selectedPayLater = platform;
+    document.querySelectorAll('#step1 .option-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    el.classList.add('selected');
+
+    setTimeout(() => {
+        nextStep();
+    }, 800);
+}
+
+
+       function selectMethod(method) {
+  selectedMethod = method;
+
+  document.querySelectorAll('#step2 .option-card').forEach(card => {
+    card.classList.remove('selected');
+  });
+
+  event.currentTarget.classList.add('selected');
+
+  // Update label & placeholder input berdasarkan metode
+  const label = document.getElementById('labelMetode');
+  const input = document.getElementById('nomorTujuan');
+
+  if (['bca', 'bri', 'bni', 'mandiri'].includes(method)) {
+    label.textContent = 'Nomor Rekening ' + method.toUpperCase();
+    input.placeholder = 'Contoh: 1234567890 (Rekening ' + method.toUpperCase() + ')';
+  } else {
+    label.textContent = 'Nomor E-Wallet ' + method.toUpperCase();
+    input.placeholder = 'Contoh: 08xxxxxxxxx (E-Wallet ' + method.toUpperCase() + ')';
+  }
+
+  // Lanjut ke Step 3
+  setTimeout(() => {
+    nextStep();
+  }, 800);
+}
+
+
+       function formatRupiah(num) {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+  }).format(num);
+}
+
+function setAmount(value) {
+  amount = value;
+  const adminFee = Math.floor(amount * 0.05); // 5%
+  const totalReceived = amount - adminFee;
+
+  // Tampilkan box rincian (jika belum muncul)
+  document.getElementById('summary-box').classList.remove('hidden');
+
+  // Isi nilai-nilai
+  document.getElementById('amountDisplay').textContent = formatRupiah(amount);
+  document.getElementById('adminFeeDisplay').textContent = formatRupiah(adminFee);
+  document.getElementById('totalDisplay').textContent = formatRupiah(totalReceived);
+}
+
+
+       function nextStep() {
+    document.getElementById(`step${currentStep}`).classList.add('hidden');
+    document.getElementById(`step${currentStep}-indicator`).classList.remove('active');
+
+    currentStep++;
+
+    document.getElementById(`step${currentStep}`).classList.remove('hidden');
+    document.getElementById(`step${currentStep}`).classList.add('slide-up');
+    document.getElementById(`step${currentStep}-indicator`).classList.add('active');
+}
+        function submitForm() {
+  const noTujuan = document.getElementById('nomorTujuan').value;
+
+  if (!noTujuan || noTujuan.length < 6) {
+    alert('Mohon masukkan nomor rekening atau e-wallet yang valid!');
+    return;
+  }
+
+  if (!amount || amount <= 0) {
+    alert('Mohon pilih nominal pencairan!');
+    return;
+  }
+
+  redirectToWhatsApp(noTujuan); // langsung arahkan ke WA
+}
+
+
+        function playSuccessSound() {
+            // Create audio context for success sound
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Create oscillator for a pleasant notification sound
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+            oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+            oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+            
+            // Also speak the success message
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance('Selamat, data Anda berhasil dikirim');
+                utterance.lang = 'id-ID';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('success-modal').classList.add('hidden');
+        }
+
+       function redirectToWhatsApp(noTujuan) {
+  const payLaterText = {
+    'shopee': 'Shopee PayLater',
+    'lazada': 'Lazada PayLater', 
+    'tokopedia': 'Tokopedia PayLater'
+  };
+  
+  const methodText = {
+    'bca': 'Bank BCA',
+    'bri': 'Bank BRI',
+    'mandiri': 'Bank Mandiri',
+    'bni': 'Bank BNI',
+    'dana': 'DANA',
+    'ovo': 'OVO',
+    'gopay': 'GoPay'
+  };
+
+  const message = `Halo Admin 👋
+
+Saya ingin mencairkan PayLater dengan detail berikut:
+
+📱 Sumber: ${payLaterText[selectedPayLater]}
+💳 Metode: ${methodText[selectedMethod]}
+🔢 Nomor Tujuan: ${noTujuan}
+💰 Nominal: Rp ${amount.toLocaleString('id-ID')}
+
+Mohon bantu prosesnya. Terima kasih 🙏`;
+
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappUrl = `https://wa.me/6281998226528?text=${encodedMessage}`;
+
+  window.open(whatsappUrl, '_blank');
+}
+
+
+        // Initialize first step
+        document.getElementById('step1-indicator').classList.add('active');
+    </script>
+</body>
+</html>
