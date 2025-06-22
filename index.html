@@ -76,6 +76,38 @@
             from { transform: translateY(30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+
+        .nominal-selected {
+  background-color: #3b82f6 !important;
+  color: white !important;
+  border: 2px solid #2563eb;
+}
+.discount-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: linear-gradient(to right, #16a34a, #22c55e); /* gradasi hijau */
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 0 0 0.5rem 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -83,9 +115,8 @@
     <div class="gradient-bg min-h-screen flex items-center justify-center px-4">
         <div class="max-w-4xl mx-auto text-center text-white">
             <div class="bounce-in">
-                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                    Layanan Cairkan PayLater Anda Sekarang!
-                </h1>
+               <h1 id="typewriter-text" class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                    </h1>
                 <p class="text-xl md:text-2xl mb-8 opacity-90 font-light">
                     Solusi cepat dan aman untuk mencairkan saldo PayLater Anda dengan proses yang mudah dan transparan.
                 </p>
@@ -193,7 +224,7 @@
                         <h3 class="text-xl font-semibold text-gray-700 mb-4">
                             <i class="fas fa-mobile-alt mr-2"></i>E-Wallet
                         </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="option-card border-2 border-gray-200 rounded-xl p-4 text-center" onclick="selectMethod('dana')">
                                 <div class="w-12 h-12 mx-auto mb-2 bg-blue-500 rounded-lg flex items-center justify-center">
                                     <i class="fas fa-wallet text-white text-lg"></i>
@@ -214,6 +245,19 @@
                                 </div>
                                 <p class="text-gray-700 font-medium">GoPay</p>
                             </div>
+                            <div class="option-card border-2 border-gray-200 rounded-xl p-4 text-center" onclick="selectMethod('shopeepay')">
+  <div class="w-12 h-12 mx-auto mb-2 bg-white rounded-lg flex items-center justify-center shadow">
+    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4eiIgZmlsbD0iI0VFNEQyRCIvPgo8cGF0aCBkPSJNOCAxMmwyIDIgNC00IiBzdHJva2U9IiNFRTREMkQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxjaXJjbGUgY3g9IjEyIiBjeT0iOCIgcj0iMSIgZmlsbD0iI0VFNEQyRCIvPgo8L3N2Zz4K" alt="ShopeePay" class="w-6 h-6">
+  </div>
+  <p class="text-gray-700 font-medium mt-1">ShopeePay</p>
+</div>
+
+                            <div class="mt-8 text-center">
+  <button onclick="prevStep()" class="px-6 py-3 rounded-lg bg-gray-100 hover:bg-gray-200 text-blue-600 font-medium transition">
+    ← Kembali ke Pilih Sumber
+  </button>
+</div>
+
                         </div>
                     </div>
                 </div>
@@ -233,19 +277,104 @@
          placeholder="Masukkan nomor tujuan">
 </div>
 
-  <div class="max-w-md mx-auto">
-    <div class="grid grid-cols-3 gap-3">
-      <button onclick="setAmount(100000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">100K</button>
-      <button onclick="setAmount(150000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">150K</button>
-      <button onclick="setAmount(200000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">200K</button>
-      <button onclick="setAmount(250000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">250K</button>
-      <button onclick="setAmount(300000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">300K</button>
-    </div>
+  <div class="grid grid-cols-3 gap-3">
+  <!-- 100K (tidak dapat diskon) -->
+  <button onclick="setAmount(100000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">100K</button>
+  <button onclick="setAmount(150000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">150K</button>
+  <button onclick="setAmount(200000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium">200K</button>
+
+  <!-- 250K ke atas (dapat diskon) -->
+  <div class="relative">
+    <button onclick="setAmount(250000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">250K</button>
+   <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 1%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(300000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">300K</button>
+    <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 1%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(400000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">400K</button>
+   <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+
+   <div class="relative">
+    <button onclick="setAmount(450000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">450K</button>
+    <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(500000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">500K</button>
+    <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(550000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">550K</button>
+   <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(600000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">600K</button>
+    <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(700000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">700K</button>
+    <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(750000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">750K</button>
+   <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(800000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">800K</button>
+    <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(900000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">900K</button>
+   <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+
+  <div class="relative">
+    <button onclick="setAmount(1000000)" class="py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium w-full">1000K</button>
+    <div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-medium px-1.5 py-[2px] rounded-md shadow-sm z-10">
+  Diskon 2%
+</div>
+  </div>
+</div>
+
 
     <!-- Rincian akan muncul setelah memilih -->
     <div id="summary-box" class="hidden mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
       <p class="text-gray-700 text-lg font-semibold">Rincian:</p>
       <p class="text-gray-600 mt-2">Jumlah Pencairan: <span id="amountDisplay">Rp 0</span></p>
+      <p id="adminNote" class="text-green-600 text-sm mt-1 font-medium hidden">Diskon biaya admin 2% telah diterapkan!</p>
       <p class="text-gray-600">Biaya Admin (5%): <span id="adminFeeDisplay">Rp 0</span></p>
       <p class="text-gray-800 font-bold mt-2">Total Diterima: <span id="totalDisplay">Rp 0</span></p>
     </div>
@@ -253,6 +382,12 @@
     <button id="submit-btn" onclick="submitForm()" class="w-full mt-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
       <i class="fas fa-paper-plane mr-2"></i>Kirim Sekarang
     </button>
+    <div class="mt-8 text-center">
+  <button onclick="prevStep()" class="px-6 py-3 rounded-lg bg-gray-100 hover:bg-gray-200 text-blue-600 font-medium transition">
+    ← Kembali ke Metode
+  </button>
+</div>
+
   </div>
 </div>
 
@@ -313,12 +448,13 @@
   const input = document.getElementById('nomorTujuan');
 
   if (['bca', 'bri', 'bni', 'mandiri'].includes(method)) {
-    label.textContent = 'Nomor Rekening ' + method.toUpperCase();
-    input.placeholder = 'Contoh: 1234567890 (Rekening ' + method.toUpperCase() + ')';
-  } else {
-    label.textContent = 'Nomor E-Wallet ' + method.toUpperCase();
-    input.placeholder = 'Contoh: 08xxxxxxxxx (E-Wallet ' + method.toUpperCase() + ')';
-  }
+  label.textContent = 'Nomor Rekening ' + method.toUpperCase();
+  input.placeholder = 'Contoh: 1234567890 (Rekening ' + method.toUpperCase() + ')';
+} else if (['dana', 'ovo', 'gopay', 'shopeepay'].includes(method)) {
+  label.textContent = 'Nomor E-Wallet ' + method.toUpperCase();
+  input.placeholder = 'Contoh: 08xxxxxxxxx (E-Wallet ' + method.toUpperCase() + ')';
+}
+
 
   // Lanjut ke Step 3
   setTimeout(() => {
@@ -336,16 +472,40 @@
 
 function setAmount(value) {
   amount = value;
-  const adminFee = Math.floor(amount * 0.05); // 5%
+
+  // Hitung diskon
+  let adminFeePercentage = 0.05; // default 5%
+  const adminNote = document.getElementById('adminNote');
+
+// Diskon bertingkat
+if (amount >= 400000) {
+  adminFeePercentage = 0.03; // diskon 2%
+  adminNote.textContent = "Diskon biaya admin 2% telah diterapkan!";
+  adminNote.classList.remove('hidden');
+} else if (amount >= 250000) {
+  adminFeePercentage = 0.04; // diskon 1%
+  adminNote.textContent = "Diskon biaya admin 1% telah diterapkan!";
+  adminNote.classList.remove('hidden');
+} else {
+  adminNote.classList.add('hidden');
+}
+
+
+  const adminFee = Math.floor(amount * adminFeePercentage);
   const totalReceived = amount - adminFee;
 
-  // Tampilkan box rincian (jika belum muncul)
+  // Tampilkan box rincian
   document.getElementById('summary-box').classList.remove('hidden');
 
-  // Isi nilai-nilai
+  // Tampilkan nilai-nilai
   document.getElementById('amountDisplay').textContent = formatRupiah(amount);
   document.getElementById('adminFeeDisplay').textContent = formatRupiah(adminFee);
   document.getElementById('totalDisplay').textContent = formatRupiah(totalReceived);
+
+  // Highlight tombol nominal
+  const buttons = document.querySelectorAll('#step3 .grid button');
+  buttons.forEach(btn => btn.classList.remove('nominal-selected'));
+  event.currentTarget.classList.add('nominal-selected');
 }
 
 
@@ -359,6 +519,17 @@ function setAmount(value) {
     document.getElementById(`step${currentStep}`).classList.add('slide-up');
     document.getElementById(`step${currentStep}-indicator`).classList.add('active');
 }
+function prevStep() {
+  document.getElementById(`step${currentStep}`).classList.add('hidden');
+  document.getElementById(`step${currentStep}-indicator`).classList.remove('active');
+
+  currentStep--;
+
+  document.getElementById(`step${currentStep}`).classList.remove('hidden');
+  document.getElementById(`step${currentStep}-indicator`).classList.add('active');
+}
+
+
         function submitForm() {
   const noTujuan = document.getElementById('nomorTujuan').value;
 
@@ -418,14 +589,16 @@ function setAmount(value) {
   };
   
   const methodText = {
-    'bca': 'Bank BCA',
-    'bri': 'Bank BRI',
-    'mandiri': 'Bank Mandiri',
-    'bni': 'Bank BNI',
-    'dana': 'DANA',
-    'ovo': 'OVO',
-    'gopay': 'GoPay'
-  };
+  'bca': 'Bank BCA',
+  'bri': 'Bank BRI',
+  'mandiri': 'Bank Mandiri',
+  'bni': 'Bank BNI',
+  'dana': 'DANA',
+  'ovo': 'OVO',
+  'gopay': 'GoPay',
+  'shopeepay': 'ShopeePay'
+};
+
 
   const message = `Halo Admin 👋
 
@@ -439,7 +612,7 @@ Saya ingin mencairkan PayLater dengan detail berikut:
 Mohon bantu prosesnya. Terima kasih 🙏`;
 
   const encodedMessage = encodeURIComponent(message);
-  const whatsappUrl = `https://wa.me/6281998226528?text=${encodedMessage}`;
+  const whatsappUrl = `https://wa.me/6285974624910?text=${encodedMessage}`;
 
   window.open(whatsappUrl, '_blank');
 }
@@ -448,5 +621,23 @@ Mohon bantu prosesnya. Terima kasih 🙏`;
         // Initialize first step
         document.getElementById('step1-indicator').classList.add('active');
     </script>
+    <script>
+  const text = "Layanan Cairkan PayLater Anda Sekarang!";
+  const target = document.getElementById("typewriter-text");
+
+  let index = 0;
+  function typeWriter() {
+    if (index < text.length) {
+      target.innerHTML += text.charAt(index);
+      index++;
+      setTimeout(typeWriter, 150); // kecepatan ketik
+    }
+  }
+
+  // Mulai saat halaman dimuat
+  window.addEventListener('load', () => {
+    typeWriter();
+  });
+</script>
 </body>
 </html>
