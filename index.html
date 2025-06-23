@@ -379,6 +379,27 @@
       <p class="text-gray-800 font-bold mt-2">Total Diterima: <span id="totalDisplay">Rp 0</span></p>
     </div>
 
+    <!-- QRIS Section -->
+<!-- QRIS Section -->
+<div id="qris-box" class="hidden mt-6 p-4 bg-white border border-gray-200 rounded-lg text-center shadow">
+  <p class="text-gray-800 font-semibold mb-2">Silakan Lakukan Pembayaran via QRIS</p>
+
+  <!-- Gambar QRIS bisa diklik untuk download -->
+  <img id="qris-image" src="qris.jpeg" alt="QRIS"
+       class="w-48 h-48 mx-auto mb-3 border hover:shadow-lg transition cursor-pointer"
+       onclick="downloadQRIS()" />
+
+  <p class="text-gray-700">Bayar sejumlah:</p>
+  <p class="text-xl font-bold text-blue-600 mb-2" id="qris-nominal">Rp 0</p>
+
+  <!-- Tombol download tetap ada -->
+  <a href="qris.jpeg" download="qris.jpeg"
+     class="inline-flex items-center justify-center px-4 py-2 mt-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition">
+    <i class="fas fa-download mr-2"></i> Download QRIS
+  </a>
+</div>
+
+
     <button id="submit-btn" onclick="submitForm()" class="w-full mt-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
       <i class="fas fa-paper-plane mr-2"></i>Kirim Sekarang
     </button>
@@ -506,6 +527,11 @@ if (amount >= 400000) {
   const buttons = document.querySelectorAll('#step3 .grid button');
   buttons.forEach(btn => btn.classList.remove('nominal-selected'));
   event.currentTarget.classList.add('nominal-selected');
+
+  // Tampilkan QRIS setelah nominal dipilih
+document.getElementById('qris-box').classList.remove('hidden');
+document.getElementById('qris-nominal').textContent = formatRupiah(amount);
+
 }
 
 
@@ -581,7 +607,7 @@ function prevStep() {
             document.getElementById('success-modal').classList.add('hidden');
         }
 
-       function redirectToWhatsApp(noTujuan) {
+ function redirectToWhatsApp(noTujuan) {
   const payLaterText = {
     'shopee': 'Shopee PayLater',
     'lazada': 'Lazada PayLater', 
@@ -589,16 +615,26 @@ function prevStep() {
   };
   
   const methodText = {
-  'bca': 'Bank BCA',
-  'bri': 'Bank BRI',
-  'mandiri': 'Bank Mandiri',
-  'bni': 'Bank BNI',
-  'dana': 'DANA',
-  'ovo': 'OVO',
-  'gopay': 'GoPay',
-  'shopeepay': 'ShopeePay'
-};
+    'bca': 'Bank BCA',
+    'bri': 'Bank BRI',
+    'mandiri': 'Bank Mandiri',
+    'bni': 'Bank BNI',
+    'dana': 'DANA',
+    'ovo': 'OVO',
+    'gopay': 'GoPay',
+    'shopeepay': 'ShopeePay'
+  };
 
+  // Hitung biaya admin dan total diterima
+  let adminFeePercentage = 0.05;
+  if (amount >= 400000) {
+    adminFeePercentage = 0.03;
+  } else if (amount >= 250000) {
+    adminFeePercentage = 0.04;
+  }
+
+  const adminFee = Math.floor(amount * adminFeePercentage);
+  const totalReceived = amount - adminFee;
 
   const message = `Halo Admin 👋
 
@@ -608,15 +644,14 @@ Saya ingin mencairkan PayLater dengan detail berikut:
 💳 Metode: ${methodText[selectedMethod]}
 🔢 Nomor Tujuan: ${noTujuan}
 💰 Nominal: Rp ${amount.toLocaleString('id-ID')}
+📥 Total Diterima Setelah Potongan: Rp ${totalReceived.toLocaleString('id-ID')}
 
 Mohon bantu prosesnya. Terima kasih 🙏`;
 
   const encodedMessage = encodeURIComponent(message);
-  const whatsappUrl = `https://wa.me/6285974624910?text=${encodedMessage}`;
-
+  const whatsappUrl = `https://wa.me/6281998226528?text=${encodedMessage}`;
   window.open(whatsappUrl, '_blank');
 }
-
 
         // Initialize first step
         document.getElementById('step1-indicator').classList.add('active');
@@ -638,6 +673,16 @@ Mohon bantu prosesnya. Terima kasih 🙏`;
   window.addEventListener('load', () => {
     typeWriter();
   });
+</script>
+<script>
+  function downloadQRIS() {
+    const link = document.createElement('a');
+    link.href = document.getElementById('qris-image').src;
+    link.download = 'qris.jpeg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 </script>
 </body>
 </html>
